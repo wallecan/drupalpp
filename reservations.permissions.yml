@@ -1,0 +1,10 @@
+add reservation:
+  title: 'Add reservation'
+delete reservation:
+  title: 'Delete reservation'
+view reservation:
+  title: 'View any reservation'
+administer reservations:
+  title: 'Administer Reservations'
+administer transactions:
+  title: 'Administer banking transactions'
