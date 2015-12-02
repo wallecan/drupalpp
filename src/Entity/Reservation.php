@@ -67,7 +67,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
     parent::preCreate($storage_controller, $values);
     $values += array(
-      'owner_id' => \Drupal::currentUser()->id(),
+      'holder_uid' => \Drupal::currentUser()->id(),
     );
   }
 
@@ -89,21 +89,21 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
    * {@inheritdoc}
    */
   public function getOwner() {
-    return $this->get('user_id')->entity;
+    return $this->get('holder_uid')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getOwnerId() {
-    return $this->get('user_id')->target_id;
+    return $this->get('holder_uid')->target_id;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setOwnerId($uid) {
-    $this->set('user_id', $uid);
+    $this->set('holder_uid', $uid);
     return $this;
   }
 
@@ -111,7 +111,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
    * {@inheritdoc}
    */
   public function setOwner(UserInterface $account) {
-    $this->set('user_id', $account->id());
+    $this->set('holder_uid', $account->id());
     return $this;
   }
 
@@ -199,22 +199,11 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setLabel(t('Reservation holder uid'))
       ->setDescription(t('The uid of the reservation holder.'))
       ->setSetting('target_type', 'user')
-      ->setRequired(TRUE)
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'type' => 'entity_reference',
         'weight' => -3,
       ))
-      ->setDisplayOptions('form', array(
-        'type' => 'entity_reference_autocomplete',
-        'settings' => array(
-          'match_operator' => 'CONTAINS',
-          'size' => 60,
-          'placeholder' => '',
-        ),
-        'weight' => -3,
-      ))
-      ->setDisplayConfigurable('form', FALSE)
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
@@ -242,6 +231,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
     $fields['start'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Start date'))
       ->setDescription(t('The date of the arrival'))
+      ->setSetting('datetime_type', 'date')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'weight' => -5,
@@ -255,6 +245,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
     $fields['end'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('End date'))
       ->setDescription(t('The date of the departure'))
+      ->setSetting('datetime_type', 'date')
       ->setDisplayOptions('view', array(
         'label' => 'above',
         'weight' => -5,
