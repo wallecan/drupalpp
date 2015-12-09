@@ -156,9 +156,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setDisplayOptions('form', array(
         'type' => 'string',
         'weight' => -6,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ));
 
     $fields['first_name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('First Name'))
@@ -177,9 +175,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setDisplayOptions('form', array(
         'type' => 'string',
         'weight' => -5,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ));
 
     $fields['email'] = BaseFieldDefinition::create('email')
       ->setLabel(t('Booker\'s e-mail'))
@@ -191,9 +187,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ))
       ->setDisplayOptions('form', array(
         'weight' => -5,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ));
 
     $fields['holder_uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Reservation holder uid'))
@@ -203,8 +197,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
         'label' => 'above',
         'type' => 'entity_reference',
         'weight' => -3,
-      ))
-      ->setDisplayConfigurable('view', TRUE);
+      ));
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('booker uid'))
@@ -224,9 +217,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
           'placeholder' => '',
         ),
         'weight' => -3,
-      ))
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ));
       
     $fields['start'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Start date'))
@@ -255,6 +246,23 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ))
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+
+    $fields['status'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The reservation status.'))
+      ->setRequired(TRUE)
+      ->setDefaultValue('active')
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'string',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'hidden',
+        'weight' => -1,
+      ])
+      ->setDisplayConfigurable('form', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
