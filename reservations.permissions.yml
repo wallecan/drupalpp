@@ -8,3 +8,6 @@ administer reservations:
   title: 'Administer Reservations'
 administer transactions:
   title: 'Administer banking transactions'
+administer seasons:
+  title: 'Administer reservations seasons'
+
