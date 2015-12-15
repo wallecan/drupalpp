@@ -1,10 +1,10 @@
-reservations.content:
-  path: '/reservation'
+reservations.admin:
+  path: '/admin/reservation'
   defaults:
     _controller: '\Drupal\reservations\Controller\ReservationsController::content'
-    _title: 'Reservations test page'
+    _title: 'Reservations Admin page'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer seasons'
 
 reservation.add:
   path: '/reservation/add'
@@ -51,4 +51,44 @@ entity.reservation.delete_form:
     _title: 'Delete reservation'
   requirements:
     _entity_access: 'reservation.delete'
+
+# SEASONS
+
+entity.season.collection:
+  path: '/admin/reservation/seasons'
+  defaults:
+    _entity_list: 'season'
+    _title: 'Seasons'
+  requirements:
+    _permission: 'administer seasons'
+
+reservations.season_add:
+  path: '/admin/reservation/seasons/add'
+  defaults:
+    _entity_form: season.default
+    _title: 'Add season'
+  requirements:
+    _permission: 'administer seasons'
+
+entity.season.edit:
+  path: '/admin/reservation/seasons/manage/{season}'
+  defaults:
+    _entity_form: 'season.default'
+    _title: 'Edit season'
+  requirements:
+    _permission: 'administer seasons'
+
+entity.season.delete:
+  path: '/admin/reservation/seasons/manage/{season}/delete'
+  defaults:
+    _entity_form: 'season.delete'
+    _title: 'Delete season'
+  requirements:
+    _permission: 'administer seasons'
+
+
+
+
+
+
 

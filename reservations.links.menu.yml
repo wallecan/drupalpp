@@ -1,7 +1,14 @@
 reservations.admin:
-  title: 'Reservation Settings'
+  title: 'Reservation'
   description: 'example of how to make an admin settings page link'
-  parent: system.admin_config_development
-  route_name: reservations.content
+  parent: system.admin
+  route_name: reservations.admin
   weight: 100
+
+entity.reservation.collection:
+  title: 'Content Entity Example: Reservation Listing'
+  route_name: entity.reservation.collection
+  description: 'List Reservation Menu'
+  weight: 10
+
 
