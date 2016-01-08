@@ -28,6 +28,7 @@ use Drupal\reservations\ReservationInterface;
  * @ContentEntityType(
  *   id = "reservation",
  *   label = @Translation("Reservation"),
+ *   bundle_label = @Translation("Season"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\reservations\ReservationListBuilder",
@@ -38,19 +39,22 @@ use Drupal\reservations\ReservationInterface;
  *       "delete" = "Drupal\reservations\Form\ReservationDeleteForm"
  *     }
  *   },
+ *   bundle_entity_type = "season",
  *   list_cache_contexts = { "user" },
  *   base_table = "reservation",
  *   admin_permission = "administer reservations",
  *   fieldable = FALSE,
  *   entity_keys = {
  *     "id" = "rid",
- *     "uuid" = "uuid"
+ *     "uuid" = "uuid",
+ *     "label" = "name",
+ *     "bundle" = "season",
  *   },
  *   links = {
  *     "canonical" = "/reservation/{reservation}",
  *     "edit-form" = "/reservation/{reservation}/edit",
  *     "delete-form" = "/reservation/{reservation}/delete",
- *     "collection" = "/reservation/list"
+ *     "collection" = "/admin/reservation/manage/reservations"
  *   }
  * )
  */
@@ -138,6 +142,11 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setLabel(t('UUID'))
       ->setDescription(t('The UUID of the reservation.'))
       ->setReadOnly(TRUE);
+
+    $fields['season'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Season'))
+      ->setDescription(t('The season for this reservation'))
+      ->setSetting('target_type', 'season');
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))

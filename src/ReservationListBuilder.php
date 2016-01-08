@@ -28,7 +28,7 @@ class ReservationListBuilder extends EntityListBuilder {
   public function render() {
     $build['description'] = array(
       '#markup' => $this->t('Content Entity Example implements a Reservation model. These reservations are not fieldable entities. You can manage the fields on the <a href="@adminlink">Reservation admin page</a>.', array(
-        '@adminlink' => \Drupal::urlGenerator()->generateFromRoute('reservations.admin'),
+        '@adminlink' => \Drupal::urlGenerator()->generateFromRoute('entity.reservation.list'),
       )),
     );
     $build['table'] = parent::render();
