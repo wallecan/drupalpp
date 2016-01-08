@@ -31,7 +31,7 @@ class ReservationDeleteForm extends ContentEntityConfirmFormBase {
    * If the delete command is canceled, return to the contact list.
    */
   public function getCancelURL() {
-    return new Url('entity.reservation.collection');
+    return new Url('entity.reservation.list');
   }
 
   /**
@@ -55,7 +55,7 @@ class ReservationDeleteForm extends ContentEntityConfirmFormBase {
         '@type' => $this->entity->bundle(),
         '%title' => $this->entity->label(),
       ));
-    $form_state->setRedirect('entity.reservation.collection');
+    $form_state->setRedirect('entity.reservation.list');
   }
 
 }
