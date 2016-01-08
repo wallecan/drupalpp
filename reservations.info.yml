@@ -1,7 +1,7 @@
-name: 'Reservation Module'
+name: 'Reservations'
 description: 'Manage reservations for Pro Peyresq.'
 type: module
-package: ProPeyresq
+package: 'Pro Peyresq'
 version: 0.3
 core: 8.x
 dependencies:

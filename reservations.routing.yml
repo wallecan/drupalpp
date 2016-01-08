@@ -1,27 +1,21 @@
 reservations.admin:
   path: '/admin/reservation'
   defaults:
-    _controller: '\Drupal\reservations\Controller\ReservationsController::content'
-    _title: 'Reservations Admin page'
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Reservations Administration'
   requirements:
-    _permission: 'administer seasons'
+    _access: 'TRUE'
 
-reservation.add:
+# Reservation
+
+entity.reservation.add_form:
   path: '/reservation/add'
   defaults:
   # Calls the form.add controller, defined in the entity.
-    _entity_form: 'reservation.add'
+    _controller: '\Drupal\reservations\Controller\ReservationsController::addForm'
     _title: 'Add reservation'
   requirements:
     _entity_create_access: 'reservation'
-
-entity.reservation.edit_form:
-  path: '/reservation/{reservation}/edit'
-  defaults:
-    _entity_form: 'reservation.edit'
-    _title: 'Edit reservation'
-  requirements:
-    _entity_access: 'reservation.edit'
 
 entity.reservation.canonical:
   path: '/reservation/{reservation}'
@@ -33,8 +27,8 @@ entity.reservation.canonical:
   # Calls the access controller of the entity, $operation 'view'
     _entity_access: 'reservation.view'
 
-entity.reservation.collection:
-  path: '/reservation/list'
+entity.reservation.list:
+  path: '/admin/reservation/manage/reservations'
   defaults:
   # Calls the list controller, defined in the annotation of the contact entity.
     _entity_list: 'reservation'
@@ -42,6 +36,14 @@ entity.reservation.collection:
   requirements:
   # Checks for permission directly.
     _permission: 'administer reservations'
+
+entity.reservation.edit_form:
+  path: '/reservation/{reservation}/edit'
+  defaults:
+    _entity_form: 'reservation.edit'
+    _title: 'Edit reservation'
+  requirements:
+    _entity_access: 'reservation.edit'
 
 entity.reservation.delete_form:
   path: '/reservation/{reservation}/delete'
@@ -54,23 +56,23 @@ entity.reservation.delete_form:
 
 # SEASONS
 
-entity.season.collection:
-  path: '/admin/reservation/seasons'
-  defaults:
-    _entity_list: 'season'
-    _title: 'Seasons'
-  requirements:
-    _permission: 'administer seasons'
-
-reservations.season_add:
-  path: '/admin/reservation/seasons/add'
+entity.season.add_form:
+  path: '/admin/reservation/manage/seasons/add'
   defaults:
     _entity_form: season.default
     _title: 'Add season'
   requirements:
     _permission: 'administer seasons'
 
-entity.season.edit:
+entity.season.list:
+  path: '/admin/reservation/manage/seasons'
+  defaults:
+    _entity_list: 'season'
+    _title: 'Seasons'
+  requirements:
+    _permission: 'administer seasons'
+
+entity.season.edit_form:
   path: '/admin/reservation/seasons/manage/{season}'
   defaults:
     _entity_form: 'season.default'
@@ -78,7 +80,7 @@ entity.season.edit:
   requirements:
     _permission: 'administer seasons'
 
-entity.season.delete:
+entity.season.delete_form:
   path: '/admin/reservation/seasons/manage/{season}/delete'
   defaults:
     _entity_form: 'season.delete'
