@@ -5,10 +5,17 @@ reservations.admin:
   route_name: reservations.admin
   weight: 100
 
-entity.reservation.collection:
-  title: 'Content Entity Example: Reservation Listing'
-  route_name: entity.reservation.collection
+entity.reservation.list:
+  title: 'Reservation Listing'
+  route_name: entity.reservation.list
+  parent: reservations.admin
   description: 'List Reservation Menu'
   weight: 10
 
+entity.season.list:
+  title: 'List of seasons'
+  route_name: entity.season.list
+  parent: reservations.admin
+  description: 'List season Menu'
+  weight: 10
 
