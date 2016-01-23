@@ -8,6 +8,7 @@ entity.reservation.add_form:
   # Where will the link appear, defined by route name.
   appears_on:
     - entity.reservation.list
+    - reservations.myreservations
 
 entity.season.add_form:
   route_name: 'entity.season.add_form'
