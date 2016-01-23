@@ -38,7 +38,7 @@ entity.reservation.list:
     _permission: 'administer reservations'
 
 entity.reservation.edit_form:
-  path: '/reservation/{reservation}/edit'
+  path: '/admin/reservation/manage/{reservation}/edit'
   defaults:
     _entity_form: 'reservation.edit'
     _title: 'Edit reservation'
@@ -46,13 +46,21 @@ entity.reservation.edit_form:
     _entity_access: 'reservation.edit'
 
 entity.reservation.delete_form:
-  path: '/reservation/{reservation}/delete'
+  path: '/admin/reservation/manage/{reservation}/delete'
   defaults:
     # Calls the form.delete controller, defined in the contact entity.
     _entity_form: 'reservation.delete'
     _title: 'Delete reservation'
   requirements:
     _entity_access: 'reservation.delete'
+
+reservations.myreservations:
+  path: '/reservation/myreservations'
+  defaults:
+    _title: 'My reservations'
+  requirements:
+    _role: 'authenticated'
+
 
 # SEASONS
 

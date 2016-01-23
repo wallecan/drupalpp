@@ -36,8 +36,9 @@ use Drupal\reservations\ReservationInterface;
  *     "form" = {
  *       "add" = "Drupal\reservations\Form\ReservationForm",
  *       "edit" = "Drupal\reservations\Form\ReservationForm",
- *       "delete" = "Drupal\reservations\Form\ReservationDeleteForm"
- *     }
+ *       "delete" = "Drupal\reservations\Form\ReservationDeleteForm",
+ *     },
+ *     "views_data" = "\Drupal\views\EntityViewsData",
  *   },
  *   bundle_entity_type = "season",
  *   list_cache_contexts = { "user" },
@@ -263,7 +264,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setDefaultValue('active')
       ->setSetting('max_length', 255)
       ->setDisplayOptions('view', [
-        'label' => 'hidden',
+        'label' => 'above',
         'type' => 'string',
         'weight' => 0,
       ])
