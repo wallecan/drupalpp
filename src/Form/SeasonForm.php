@@ -6,7 +6,7 @@
 
 namespace Drupal\reservations\Form;
 
-use Drupal\Core\Entity\ConfigEntityForm;
+use Drupal\Core\Entity\BundleEntityFormBase;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -21,9 +21,23 @@ class SeasonForm extends BundleEntityFormBase {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
-    $form = parent::form($form, $form_state);
-    //$entity = $this->entity;
+    //$form = parent::form($form, $form_state);
 
+    $entity = $this->entity;
+
+    //TODO: implement season form
+    $form['not_implemented'] = array(
+      '#type' => 'markup',
+      '#markup' => $this->t('Season form not implemented yet'),
+    );
+
+    $form['year'] = array(
+      '#type' => 'value',
+      '#value' => $entity->id(),
+    );
+
+    // Protect form against change
+    $this->protectBundleIdElement($form);
     return $form;
   }
 

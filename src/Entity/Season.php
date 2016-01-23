@@ -22,8 +22,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *   handlers = {
  *     "list_builder" = "Drupal\reservations\SeasonListBuilder",
  *     "form" = {
- *       "add" = "Drupal\reservations\Form\SeasonForm",
- *       "edit" = "Drupal\reservations\Form\SeasonForm",
+ *       "default" = "Drupal\reservations\Form\SeasonForm",
  *       "delete" = "Drupal\reservations\Form\SeasonDeleteForm"
  *     }
  *   },
