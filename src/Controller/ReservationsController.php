@@ -25,9 +25,18 @@ class ReservationsController extends ControllerBase {
    *   The reservation add form.
    */
   public function addForm() {
-    // TODO: implement getCurentSeason() and error page when not applicable
-    //$season = $this->entityManager()->getStorage('season')->getCurentSeason();
-    $reservation = $this->entityManager()->getStorage('reservation')->create(array('season' => '2015'));
-    return $this->entityFormBuilder()->getForm($reservation, 'add');
+
+  $form = $this->formBuilder()->getForm('\Drupal\reservations\Form\ReservationAddForm');
+
+  /**
+   * Create a fresh Reservation entity
+   * TODO: implement getCurentSeason() and error page when not applicable
+   * $season = $this->entityManager()->getStorage('season')->getCurentSeason();
+   */
+    //$reservation = $this->entityManager()->getStorage('reservation')->create(array('season' => '2015'));
+    // Get form from the EntityForm
+    //$form = $this->entityFormBuilder()->getForm($reservation, 'add');
+    
+    return $form;
   }
 }
