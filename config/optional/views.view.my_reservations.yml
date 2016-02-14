@@ -1,3 +1,4 @@
+uuid: 8fccc8d4-aa15-480f-a303-3fe4608c760a
 langcode: fr
 status: true
 dependencies:
@@ -7,10 +8,10 @@ dependencies:
   module:
     - reservations
     - user
-id: myreservations
-label: 'myreservations page'
+id: my_reservations
+label: 'Mes reservations'
 module: views
-description: 'Liste les réservations de l''utilisateur logué'
+description: 'Liste des réservations de l''utilisateur logué'
 tag: ''
 base_table: reservation
 base_field: rid
