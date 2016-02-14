@@ -54,13 +54,6 @@ entity.reservation.delete_form:
   requirements:
     _entity_access: 'reservation.delete'
 
-reservations.myreservations:
-  path: '/reservation/myreservations'
-  defaults:
-    _title: 'My reservations'
-  requirements:
-    _role: 'authenticated'
-
 
 # SEASONS
 
