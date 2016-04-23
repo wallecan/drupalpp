@@ -16,12 +16,26 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class ReservationAddForm extends FormBase {
 
+  private $currentStep;
+
   private $steps = [
-    1 => 'Etape 1',
-    2 => 'Etape 2',
-    3 => 'Etape 3',
+    1 => 'Etape 1: Conditions',
+    2 => 'Etape 2: Informations personnelles',
+    3 => 'Etape 3: Séjour',
   ];
-  
+
+  private function getCurrentStep(FormStateInterface $form_state) {
+    if (!$this->currentStep) {
+      $this->currentStep = $form_state->has('reservation_step') ? $form_state->get('reservation_step') : 1;
+    }
+    return $this->currentStep;
+  }
+
+  private function setCurrentStep(FormStateInterface $form_state, $step) {
+    $form_state->set('reservation_step', $step);
+    $this->currentStep = $step;
+  }
+
   /**
    * Returns a unique string identifying the form.
    *
@@ -43,13 +57,16 @@ class ReservationAddForm extends FormBase {
    *   An associative array containing the current state of the form.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $currentStep = $form_state->has('reservation_step') ? $form_state->get('reservation_step') : 1;
-    //$currentStep = $form_state->get('reservation_step');
+    $currentStep = $this->getCurrentStep($form_state);
+
     $form['#title'] = $this->steps[$currentStep];
     
     switch($currentStep) {
       case 1:
         $form = $this->step1($form, $form_state);
+        break;
+      case 2:
+        $form = $this->step2($form, $form_state);
         break;
       default:
         $form['#markup'] = '<p>Not implemented yet</p>';
@@ -70,19 +87,24 @@ class ReservationAddForm extends FormBase {
     return $form;
   }
 
-  protected function step1($form, FormStateInterface $form_state) {
-    $form_state->set('reservation_step', 1);
-    
+  private function step1($form, FormStateInterface $form_state) {
+
+
+    $form['accept_conditions'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('I read and accept the terms of service'),
+    );
+
+    return $form;
+  }
+
+  protected function step2($form, FormStateInterface $form_state) {
+
     $user = $this->currentUser();
 
 
     $form['contact_settings'] = array(
       '#markup' => '<p>' . $this->t('This page will add a serie of reservations') . '</p>'
-    );
-    
-    $form['accept_conditions'] = array(
-      '#type' => 'checkbox',
-      '#title' => $this->t('I read and accept the terms of service'),
     );
 
     $form['personal_info'] = array(
@@ -109,7 +131,6 @@ class ReservationAddForm extends FormBase {
     
   }
 
-
   /**
    * Form submission handler.
    *
@@ -120,11 +141,12 @@ class ReservationAddForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     
-    $currentStep = $form_state->get('reservation_step');
+    $currentStep = $this->getCurrentStep($form_state);
 
     if ($currentStep < count($this->steps)) {
-      $form_state->setRebuild();
-      $form_state->set('reservation_step', ++$currentStep);
+      $form_state->setRebuild(TRUE);
+      $this->setCurrentStep($form_state, ++$currentStep);
+      drupal_set_message("Nous sommes à l'étape: " . $currentStep);
       
     }
     else {
