@@ -39,6 +39,9 @@ use Drupal\reservations\ReservationInterface;
  *       "delete" = "Drupal\reservations\Form\ReservationDeleteForm",
  *     },
  *     "views_data" = "\Drupal\views\EntityViewsData",
+ *     "route_provider" = {
+ *       "html" = "\Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *     },
  *   },
  *   bundle_entity_type = "season",
  *   list_cache_contexts = { "user" },
@@ -52,10 +55,12 @@ use Drupal\reservations\ReservationInterface;
  *     "bundle" = "season",
  *   },
  *   links = {
- *     "canonical" = "/reservation/{reservation}",
- *     "edit-form" = "/reservation/{reservation}/edit",
- *     "delete-form" = "/reservation/{reservation}/delete",
- *     "collection" = "/admin/reservation/manage/reservations"
+ *     "canonical" = "/admin/reservation/{reservation}",
+ *     "collection" = "/admin/reservation/manage/reservations",
+ *     "add-form" = "/admin/reservation/{season}/add",
+ *     "add-page" = "/admin/reservation/addPage",
+ *     "edit-form" = "/admin/reservation/{reservation}/edit",
+ *     "delete-form" = "/admin/reservation/{reservation}/delete",
  *   }
  * )
  */

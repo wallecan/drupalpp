@@ -38,7 +38,7 @@ class ReservationForm extends ContentEntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $form_state->setRedirect('entity.reservation.list');
+    $form_state->setRedirect('entity.reservation.collection');
     $entity = $this->getEntity();
     $entity->save();
   }

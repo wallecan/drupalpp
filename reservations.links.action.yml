@@ -1,14 +1,20 @@
 # All action links for this module
 
-entity.reservation.add_form:
+reservations.create:
   # Which route will be called by the link
-  route_name: 'entity.reservation.add_form'
+  route_name: 'reservations.create'
   title: 'Add a Reservation'
 
   # Where will the link appear, defined by route name.
   appears_on:
-    - entity.reservation.list
     - view.my_reservations.page_1
+
+entity.reservation.add_form:
+  route_name: 'entity.reservation.add_form'
+  route_parameters: {season: '2015'}
+  title: 'Add reservation'
+  appears_on:
+    - entity.reservation.collection
 
 entity.season.add_form:
   route_name: 'entity.season.add_form'

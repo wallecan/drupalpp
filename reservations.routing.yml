@@ -6,59 +6,30 @@ reservations.admin:
   requirements:
     _access: 'TRUE'
 
-# Reservation
-
-entity.reservation.add_form:
-  path: '/reservation/add'
+# User reservation form
+reservations.create:
+  path: '/reservation/create'
   defaults:
-  # Calls the form.add controller, defined in the entity.
     _controller: '\Drupal\reservations\Controller\ReservationsController::addForm'
     _title: 'Add reservation'
   requirements:
-    _entity_create_access: 'reservation'
+    _permission: 'add reservation'
 
-entity.reservation.canonical:
-  path: '/reservation/{reservation}'
-  defaults:
-  # Calls the view controller, defined in the annotation of the contact entity
-    _entity_view: 'reservation'
-    _title: 'View reservation'
-  requirements:
-  # Calls the access controller of the entity, $operation 'view'
-    _entity_access: 'reservation.view'
+# Other Entity routes are automatically generated in \Drupal\Core\Entity\Routing\AdminHtmlRouteProvider and DefaultHtmlRouteProvider
 
-entity.reservation.list:
+entity.reservation.collection:
   path: '/admin/reservation/manage/reservations'
   defaults:
   # Calls the list controller, defined in the annotation of the contact entity.
     _entity_list: 'reservation'
-    _title: 'Reservation List'
+    _title: 'Reservations List'
   requirements:
   # Checks for permission directly.
     _permission: 'administer reservations'
-
-entity.reservation.edit_form:
-  path: '/admin/reservation/manage/{reservation}/edit'
-  defaults:
-    _entity_form: 'reservation.edit'
-    _title: 'Edit reservation'
-  requirements:
-    _entity_access: 'reservation.edit'
-
-entity.reservation.delete_form:
-  path: '/admin/reservation/manage/{reservation}/delete'
-  defaults:
-    # Calls the form.delete controller, defined in the contact entity.
-    _entity_form: 'reservation.delete'
-    _title: 'Delete reservation'
-  requirements:
-    _entity_access: 'reservation.delete'
-
-
 # SEASONS
 
 entity.season.add_form:
-  path: '/admin/reservation/manage/seasons/add'
+  path: '/admin/reservation/season/add'
   defaults:
     _entity_form: season.default
     _title: 'Add season'
