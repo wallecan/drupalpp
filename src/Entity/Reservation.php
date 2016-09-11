@@ -28,6 +28,12 @@ use Drupal\reservations\ReservationInterface;
  * @ContentEntityType(
  *   id = "reservation",
  *   label = @Translation("Reservation"),
+ *   label_singular = @Translation("reservation"),
+ *   label_plural = @Translation("reservations"),
+ *   label_count = @PluralTranslation(
+ *     singular = "@count reservation",
+ *     plural = "@count reservations",
+ *   ),
  *   bundle_label = @Translation("Season"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
@@ -82,17 +88,10 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Gets the reservation creation timestamp
    */
   public function getCreatedTime() {
     return $this->get('created')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getChangedTime() {
-    return $this->get('changed')->value;
   }
 
   /**
@@ -137,22 +136,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
 
-    // Standard field, used as unique if primary index.
-    $fields['rid'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('ID'))
-      ->setDescription(t('The ID of the Reservation.'))
-      ->setReadOnly(TRUE);
-
-    // Standard field, unique outside of the scope of the current project.
-    $fields['uuid'] = BaseFieldDefinition::create('uuid')
-      ->setLabel(t('UUID'))
-      ->setDescription(t('The UUID of the reservation.'))
-      ->setReadOnly(TRUE);
-
-    $fields['season'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Season'))
-      ->setDescription(t('The season for this reservation'))
-      ->setSetting('target_type', 'season');
+    $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
