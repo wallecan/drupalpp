@@ -11,7 +11,8 @@ reservations.create:
 
 entity.reservation.add_form:
   route_name: 'entity.reservation.add_form'
-  route_parameters: {season: '2015'}
+  route_parameters:
+    season: '2017'
   title: 'Add reservation'
   appears_on:
     - entity.reservation.collection

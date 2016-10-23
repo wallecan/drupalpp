@@ -45,7 +45,8 @@ class ReservationListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['rid'] = $this->t('ReservationID');
-    $header['first_name'] = $this->t('First Name');
+    $header['label'] = $this->t('Label');
+    $header['owner_uid'] = $this->t('Reservation Owner');
 
     return $header + parent::buildHeader();
   }
@@ -56,7 +57,8 @@ class ReservationListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\content_entity_example\Entity\Contact */
     $row['rid'] = $entity->id();
-    $row['first_name'] = $entity->first_name->value;
+    $row['label'] = $entity->label->value;
+    $row['owner_uid'] = $entity->getOwner()->name->value;
     return $row + parent::buildRow($entity);
   }
 

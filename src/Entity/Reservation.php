@@ -34,7 +34,6 @@ use Drupal\reservations\ReservationInterface;
  *     singular = "@count reservation",
  *     plural = "@count reservations",
  *   ),
- *   bundle_label = @Translation("Season"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\reservations\ReservationListBuilder",
@@ -49,7 +48,6 @@ use Drupal\reservations\ReservationInterface;
  *       "html" = "\Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *   },
- *   bundle_entity_type = "season",
  *   list_cache_contexts = { "user" },
  *   base_table = "reservation",
  *   admin_permission = "administer reservations",
@@ -57,13 +55,12 @@ use Drupal\reservations\ReservationInterface;
  *   entity_keys = {
  *     "id" = "rid",
  *     "uuid" = "uuid",
- *     "label" = "name",
- *     "bundle" = "season",
+ *     "label" = "label",
  *   },
  *   links = {
  *     "canonical" = "/admin/reservation/{reservation}",
  *     "collection" = "/admin/reservation/manage/reservations",
- *     "add-form" = "/admin/reservation/{season}/add",
+ *     "add-form" = "/admin/reservation/add",
  *     "add-page" = "/admin/reservation/addPage",
  *     "edit-form" = "/admin/reservation/{reservation}/edit",
  *     "delete-form" = "/admin/reservation/{reservation}/delete",
@@ -73,19 +70,6 @@ use Drupal\reservations\ReservationInterface;
 class Reservation extends ContentEntityBase implements ReservationInterface {
 
   use EntityChangedTrait;
-
-  /**
-   * {@inheritdoc}
-   *
-   * When a new entity instance is added, set the user_id entity reference to
-   * the current user as the creator of the instance.
-   */
-  public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
-    parent::preCreate($storage_controller, $values);
-    $values += array(
-      'holder_uid' => \Drupal::currentUser()->id(),
-    );
-  }
 
   /**
    * Gets the reservation creation timestamp
@@ -98,21 +82,21 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
    * {@inheritdoc}
    */
   public function getOwner() {
-    return $this->get('holder_uid')->entity;
+    return $this->get('owner_uid')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getOwnerId() {
-    return $this->get('holder_uid')->target_id;
+    return $this->get('owner_uid')->target_id;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setOwnerId($uid) {
-    $this->set('holder_uid', $uid);
+    $this->set('owner_uid', $uid);
     return $this;
   }
 
@@ -120,7 +104,7 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
    * {@inheritdoc}
    */
   public function setOwner(UserInterface $account) {
-    $this->set('holder_uid', $account->id());
+    $this->set('owner_uid', $account->id());
     return $this;
   }
 
@@ -138,13 +122,13 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
 
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Name'))
-      ->setDescription(t('The name of the booker.'))
+    $fields['label'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Label'))
+      ->setDescription(t('The label of the reservation'))
       ->setRequired(TRUE)
       ->setSettings(array(
-        'default_value' => '',
-        'max_length' => 255,
+        'default_value' => 'Label 1',
+        'max_length' => 64,
         'text_processing' => 0,
       ))
       ->setDisplayOptions('view', array(
@@ -157,66 +141,33 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
         'weight' => -6,
       ));
 
-    $fields['first_name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('First Name'))
-      ->setDescription(t('The first name of the booker.'))
-      ->setRequired(TRUE)
-      ->setSettings(array(
-        'default_value' => '',
-        'max_length' => 255,
-        'text_processing' => 0,
-      ))
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'string',
-        'weight' => -5,
-      ))
-      ->setDisplayOptions('form', array(
-        'type' => 'string',
-        'weight' => -5,
-      ));
 
-    $fields['email'] = BaseFieldDefinition::create('email')
-      ->setLabel(t('Booker\'s e-mail'))
-      ->setDescription(t('The contact email address of the booker'))
-      ->setRequired(TRUE)
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'weight' => -5,
-      ))
-      ->setDisplayOptions('form', array(
-        'weight' => -5,
-      ));
-
-    $fields['holder_uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Reservation holder uid'))
-      ->setDescription(t('The uid of the reservation holder.'))
+    $fields['owner_uid'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Reservation owner'))
+      ->setDescription(t('The owner of the reservation.'))
+      ->setDefaultValueCallback('Drupal\reservations\Entity\Reservation::getCurrentUserId')
       ->setSetting('target_type', 'user')
       ->setDisplayOptions('view', array(
         'label' => 'above',
-        'type' => 'entity_reference',
-        'weight' => -3,
-      ));
-
-    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('booker uid'))
-      ->setDescription(t('The booker name.'))
-      ->setSetting('target_type', 'user')
-      ->setRequired(FALSE)
-      ->setDisplayOptions('view', array(
-        'label' => 'above',
-        'type' => 'entity_reference',
-        'weight' => -3,
+        'type' => 'author',
+        'weight' => 0,
       ))
       ->setDisplayOptions('form', array(
         'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
         'settings' => array(
           'match_operator' => 'CONTAINS',
-          'size' => 60,
+          'size' => '60',
           'placeholder' => '',
         ),
-        'weight' => -3,
-      ));
+      ))
+      ->setDisplayConfigurable('form', TRUE);
+
+    $fields['season'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Season'))
+      ->setDescription(t('The reservation\'s season.'))
+      ->setSetting('target_type', 'season')
+      ->setDefaultValue('2017');
       
     $fields['start'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Start date'))
@@ -246,15 +197,16 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['status'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Status'))
-      ->setDescription(t('The reservation status.'))
+    $fields['state'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('State'))
+      ->setDescription(t('The reservation state.'))
       ->setRequired(TRUE)
-      ->setDefaultValue('active')
-      ->setSetting('max_length', 255)
+      ->setDefaultValue('ReservationInterface::SUBMITTED')
+      ->setSetting('unsigned', TRUE)
+      ->setSetting('size', 'tiny')
       ->setDisplayOptions('view', [
         'label' => 'above',
-        'type' => 'string',
+        'type' => '',
         'weight' => 0,
       ])
       ->setDisplayOptions('form', [
@@ -272,6 +224,18 @@ class Reservation extends ContentEntityBase implements ReservationInterface {
       ->setDescription(t('The time that the entity was last edited.'));
 
     return $fields;
+  }
+
+  /**
+   * Default value callback for 'owner_uid' base field definition.
+   *
+   * @see ::baseFieldDefinitions()
+   *
+   * @return array
+   *   An array of default values.
+   */
+  public static function getCurrentUserId() {
+    return [\Drupal::currentUser()->id()];
   }
 
 }

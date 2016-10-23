@@ -22,7 +22,7 @@ class ReservationDeleteForm extends ContentEntityConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return $this->t('Are you sure you want to delete entity %name?', array('%name' => $this->entity->uuid()));
+    return $this->t('Are you sure you want to delete entity %name?', array('%name' => $this->entity->label->value));
   }
 
   /**
@@ -50,10 +50,9 @@ class ReservationDeleteForm extends ContentEntityConfirmFormBase {
     $entity = $this->getEntity();
     $entity->delete();
 
-    \Drupal::logger('reservations')->notice('@type: deleted %title.',
+    \Drupal::logger('reservations')->notice('reservation: deleted %title.',
       array(
-        '@type' => $this->entity->bundle(),
-        '%title' => $this->entity->label(),
+        '%title' => $this->entity->label->value,
       ));
     $form_state->setRedirect('entity.reservation.collection');
   }

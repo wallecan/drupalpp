@@ -23,12 +23,11 @@ class ReservationForm extends ContentEntityForm {
   public function form(array $form, FormStateInterface $form_state) {
 
     $reservation = $this->entity;
-    $season_storage = $this->entityManager->getStorage('season');
-    $season = $season_storage->load($reservation->bundle());
+    $season_id = $reservation->season->target_id;
 
     $form['season'] = array(
       '#type' => 'value',
-      '#value' => $season->id(),
+      '#value' => $season_id,
     );
     
     return parent::form($form, $form_state);
