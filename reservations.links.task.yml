@@ -1,0 +1,17 @@
+# Stay routing definition
+entity.stay.canonical:
+  route_name: entity.stay.canonical
+  base_route: entity.stay.canonical
+  title: 'View'
+
+entity.stay.edit_form:
+  route_name: entity.stay.edit_form
+  base_route: entity.stay.canonical
+  title: 'Edit'
+
+entity.stay.delete_form:
+  route_name:  entity.stay.delete_form
+  base_route:  entity.stay.canonical
+  title: Delete
+  weight: 10
+

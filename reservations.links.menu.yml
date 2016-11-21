@@ -19,3 +19,12 @@ entity.season.list:
   description: 'List season Menu'
   weight: 10
 
+
+# Stay menu items definition
+entity.stay.collection:
+  title: 'Stay list'
+  route_name: entity.stay.collection
+  description: 'List Stay entities'
+  parent: reservations.admin
+  weight: 100
+

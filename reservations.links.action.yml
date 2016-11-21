@@ -23,3 +23,8 @@ entity.season.add_form:
   appears_on:
     - entity.season.list
 
+entity.stay.add_form:
+  route_name: entity.stay.add_form
+  title: 'Add Stay'
+  appears_on:
+    - entity.stay.collection

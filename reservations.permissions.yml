@@ -1,13 +1,35 @@
 add reservation:
   title: 'Add reservation'
+
 delete reservation:
   title: 'Delete reservation'
+
 view reservation:
   title: 'View any reservation'
+
 administer reservations:
   title: 'Administer Reservations'
+
 administer transactions:
   title: 'Administer banking transactions'
+
 administer seasons:
   title: 'Administer reservations seasons'
+
+add stay entities:
+  title: 'Create new Stay entities'
+
+administer stay entities:
+  title: 'Administer Stay entities'
+  description: 'Allow to access the administration form to configure Stay entities.'
+  restrict access: true
+
+delete stay entities:
+  title: 'Delete Stay entities'
+
+edit stay entities:
+  title: 'Edit Stay entities'
+
+access stay overview:
+  title: 'Access the Stay overview page'
 

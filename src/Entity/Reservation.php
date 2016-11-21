@@ -43,9 +43,9 @@ use Drupal\reservations\ReservationInterface;
  *       "edit" = "Drupal\reservations\Form\ReservationForm",
  *       "delete" = "Drupal\reservations\Form\ReservationDeleteForm",
  *     },
- *     "views_data" = "\Drupal\views\EntityViewsData",
+ *     "views_data" = "Drupal\views\EntityViewsData",
  *     "route_provider" = {
- *       "html" = "\Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
  *   },
  *   list_cache_contexts = { "user" },
