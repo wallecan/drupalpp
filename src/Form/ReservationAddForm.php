@@ -19,9 +19,10 @@ class ReservationAddForm extends FormBase {
   private $currentStep;
 
   private $steps = [
-    1 => 'Etape 1: Conditions',
-    2 => 'Etape 2: Informations personnelles',
-    3 => 'Etape 3: Séjour',
+    1 => 'Etape 1: Période',
+    2 => 'Etape 2: Séjournants',
+    3 => 'Etape 3: Résumé',
+    4 => 'Etape 3: Paiement',
   ];
 
   private function getCurrentStep(FormStateInterface $form_state) {
